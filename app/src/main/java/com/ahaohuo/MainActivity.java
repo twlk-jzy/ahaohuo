@@ -3,6 +3,7 @@ package com.ahaohuo;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ahaohuo.adapter.ProductViewHolder;
+import com.ahaohuo.base.BaseActivity;
 import com.ahaohuo.model.ProductModel;
 import com.ahaohuo.presenter.ProductPresenter;
 import com.ahaohuo.presenter.contract.ProductContract;
@@ -26,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view {
+public class MainActivity extends BaseActivity implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view {
 
     @BindView(R.id.recyclerView)
     EasyRecyclerView recyclerView;
@@ -35,11 +37,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerArrayAdap
     private RecyclerArrayAdapter<ProductModel.DataBean> adapter;
 
     private ProductPresenter presenter;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initData(@Nullable Bundle savedInstanceState) {
         presenter = new ProductPresenter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -77,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerArrayAdap
 
         presenter.getProductList(0,10);
     }
+
 
     @Override
     public void onLoadMore() {
