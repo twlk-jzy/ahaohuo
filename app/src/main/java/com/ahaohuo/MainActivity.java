@@ -1,42 +1,33 @@
 package com.ahaohuo;
 
-import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.widget.FrameLayout;
 
-import com.ahaohuo.adapter.ProductViewHolder;
 import com.ahaohuo.base.BaseActivity;
-import com.ahaohuo.model.ProductModel;
-import com.ahaohuo.presenter.ProductPresenter;
-import com.ahaohuo.presenter.contract.ProductContract;
-import com.ahaohuo.util.AppUtils;
-import com.jude.easyrecyclerview.EasyRecyclerView;
-import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.jude.easyrecyclerview.decoration.DividerDecoration;
-import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
-
-import java.util.List;
+import com.ahaohuo.fragment.FindFragment;
+import com.ahaohuo.fragment.IndexFragment;
+import com.ahaohuo.fragment.MyFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import me.majiajie.pagerbottomtabstrip.NavigationController;
+import me.majiajie.pagerbottomtabstrip.PageBottomTabLayout;
+import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
 
-public class MainActivity extends BaseActivity implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view {
+public class MainActivity extends BaseActivity {
 
-    @BindView(R.id.recyclerView)
-    EasyRecyclerView recyclerView;
-    @BindView(R.id.ll_root)
-    LinearLayout llRoot;
-    private RecyclerArrayAdapter<ProductModel.DataBean> adapter;
 
-    private ProductPresenter presenter;
+    @BindView(R.id.fl_layout)
+    FrameLayout flLayout;
+    @BindView(R.id.tab)
+    PageBottomTabLayout tab;
+    private IndexFragment indexFragment;
+    private Fragment currentFragment;
+    private FindFragment findFragment;
+    private MyFragment myFragment;
 
     @Override
     public int getLayoutId() {
@@ -45,65 +36,64 @@ public class MainActivity extends BaseActivity implements RecyclerArrayAdapter.O
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        presenter = new ProductPresenter(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerDecoration itemDecoration = new DividerDecoration(Color.GRAY, 0, 0,0);
-        itemDecoration.setDrawLastItem(false);
-        recyclerView.addItemDecoration(itemDecoration);
+        if (findViewById(R.id.fl_layout) != null) {
+            if (savedInstanceState != null) {
+                return;
+            }
+            indexFragment = new IndexFragment();
+            currentFragment = indexFragment;
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fl_layout, indexFragment).commit();
+        }
 
-        recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<ProductModel.DataBean>(this) {
+        NavigationController navigationController = tab.material()
+                .addItem(R.mipmap.icon_index, "首页")
+                .addItem(R.mipmap.icon_find, "发现")
+                .addItem(R.mipmap.icon_my, "我的")
+                .build();
+
+        navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
             @Override
-            public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
-                return new ProductViewHolder(parent);
+            public void onSelected(int i, int i1) {
+                switch (i) {
+                    case 0:
+                        if (indexFragment == null) {
+                            indexFragment = new IndexFragment();
+                        }
+                        showFragment(currentFragment, indexFragment);
+                        break;
+                    case 1:
+                        if (findFragment == null) {
+                            findFragment = new FindFragment();
+                        }
+                        showFragment(currentFragment, findFragment);
+                        break;
+                    case 2:
+                        if (myFragment == null) {
+                            myFragment = new MyFragment();
+                        }
+                        showFragment(currentFragment, myFragment);
+                        break;
+                }
+            }
+
+            @Override
+            public void onRepeat(int i) {
+
             }
         });
-        adapter.setMore(R.layout.view_more, this);
-        adapter.setNoMore(R.layout.view_nomore);
-        adapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(int position) {
-                adapter.remove(position);
-                return true;
-            }
-        });
-        adapter.setError(R.layout.view_error, new RecyclerArrayAdapter.OnErrorListener() {
-            @Override
-            public void onErrorShow() {
-                adapter.resumeMore();
-            }
-
-            @Override
-            public void onErrorClick() {
-                adapter.resumeMore();
-            }
-        });
-
-
-        presenter.getProductList(0,10);
-    }
-
-
-    @Override
-    public void onLoadMore() {
 
     }
 
-    @Override
-    public void onRefresh() {
-
-    }
-
-    @Override
-    public void onSuccess(ProductModel model) {
-        List<ProductModel.DataBean> dataBeans = model.getData();
-        if(dataBeans != null){
-            adapter.addAll(dataBeans);
+    private void showFragment(Fragment from, Fragment to) {
+        currentFragment = to;
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        boolean isAdded = to.isAdded();
+        if (!isAdded) {
+            transaction.hide(from).add(R.id.fl_layout, to).show(to).commitAllowingStateLoss();
+        } else {
+            transaction.hide(from).show(to).commitAllowingStateLoss();
         }
     }
 
-    @Override
-    public void onFail(String msg) {
-        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
-    }
 }

@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.ahaohuo.MainActivity">
 
-    <com.jude.easyrecyclerview.EasyRecyclerView
-        android:id="@+id/recyclerView"
+
+    <FrameLayout
+        android:id="@+id/fl_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_empty="@layout/view_empty"
-        app:layout_error="@layout/view_error"
-        app:layout_progress="@layout/view_progress"
-        app:recyclerClipToPadding="true"
-        app:recyclerPadding="8dp"
-        app:recyclerPaddingBottom="8dp"
-        app:recyclerPaddingLeft="8dp"
-        app:recyclerPaddingRight="8dp"
-        app:recyclerPaddingTop="8dp"
-        app:scrollbarStyle="insideOverlay"
-        app:scrollbars="none" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tab" />
+
+
+    <me.majiajie.pagerbottomtabstrip.PageBottomTabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF"
+        android:elevation="8dp" />
+</RelativeLayout>
