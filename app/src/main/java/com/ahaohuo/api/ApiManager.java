@@ -1,6 +1,7 @@
 package com.ahaohuo.api;
 
 
+import com.ahaohuo.api.retrofit.CacheInterceptor;
 import com.ahaohuo.api.retrofit.HttpLoggingInterceptor;
 import com.ahaohuo.api.retrofit.JsonConverterFactory;
 import com.ahaohuo.config.AppConfig;
@@ -45,6 +46,7 @@ public class ApiManager {
                     loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
                     OkHttpClient client = new OkHttpClient.Builder()
                             .addInterceptor(loggingInterceptor)
+                            .addNetworkInterceptor(new CacheInterceptor())
                             .build();
                     apiService = new Retrofit.Builder()
                             .baseUrl(AppConfig.BASE_URL)

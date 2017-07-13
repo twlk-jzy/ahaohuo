@@ -1,11 +1,11 @@
 package com.ahaohuo;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
 
 
 /**
@@ -13,9 +13,12 @@ import com.tencent.bugly.beta.Beta;
  */
 
 public class MainApplication extends Application {
+    @SuppressLint("StaticFieldLeak")
+    private static Context context;
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         BuglyInit(getApplicationContext());
     }
 
@@ -33,5 +36,9 @@ public class MainApplication extends Application {
 
         // 安装tinker
 //        Beta.installTinker();
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

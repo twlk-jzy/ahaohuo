@@ -4,12 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ahaohuo.MainActivity;
 import com.ahaohuo.R;
 import com.ahaohuo.adapter.ProductViewHolder;
 import com.ahaohuo.base.BaseFragment;
@@ -25,8 +22,6 @@ import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by xyb on 2017/7/12.
@@ -92,7 +87,7 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
 
     @Override
     public void onRefresh() {
-
+        presenter.getProductList(0, 10);
     }
 
     @Override
