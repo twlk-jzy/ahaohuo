@@ -2,7 +2,9 @@ package com.ahaohuo.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
@@ -11,9 +13,11 @@ import butterknife.ButterKnife;
  * Created by xyb on 2017/7/11.
  */
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
-   public abstract int getLayoutId();
+    private ActionBar actionBar;
+
+    public abstract int getLayoutId();
 
    public abstract void initData(@Nullable Bundle savedInstanceState);
 
@@ -23,6 +27,22 @@ public abstract class BaseActivity extends FragmentActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         initData(savedInstanceState);
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param toolbar 标题控件
+     * @param title   标题文本
+     */
+    protected void setTitle(Toolbar toolbar, String title) {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            actionBar = getSupportActionBar();
+            if (actionBar != null && null != title && !("").equals(title)) {
+                actionBar.setTitle(title);
+            }
+        }
     }
 
     public void showToast(String msg){

@@ -1,23 +1,30 @@
 package com.ahaohuo.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.ahaohuo.GlideImageLoader;
 import com.ahaohuo.R;
+import com.ahaohuo.activity.WebViewActivity;
 import com.ahaohuo.adapter.ProductViewHolder;
 import com.ahaohuo.base.BaseFragment;
+import com.ahaohuo.model.BannerModel;
 import com.ahaohuo.model.ProductModel;
+import com.ahaohuo.presenter.BannerPresenter;
 import com.ahaohuo.presenter.ProductPresenter;
+import com.ahaohuo.presenter.contract.BannerContract;
 import com.ahaohuo.presenter.contract.ProductContract;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.List;
 
@@ -27,12 +34,17 @@ import butterknife.BindView;
  * Created by xyb on 2017/7/12.
  */
 
-public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view {
+public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view,BannerContract.view {
     @BindView(R.id.recyclerView)
     EasyRecyclerView recyclerView;
+    @BindView(R.id.banner)
+    Banner banner;
     private RecyclerArrayAdapter<ProductModel.DataBean> adapter;
 
     private ProductPresenter presenter;
+    private BannerPresenter bannerPresenter;
+    private List<BannerModel.DataBean> banners;
+
     @Override
     public int getLayoutId(@Nullable Bundle savedInstanceState) {
         return R.layout.fragment_index;
@@ -40,14 +52,16 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
 
     @Override
     public void initData() {
-
         presenter = new ProductPresenter(this);
+        bannerPresenter = new BannerPresenter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         DividerDecoration itemDecoration = new DividerDecoration(Color.GRAY, 0, 0, 0);
         itemDecoration.setDrawLastItem(false);
         recyclerView.addItemDecoration(itemDecoration);
-
+        banner.setImageLoader(new GlideImageLoader());
+        banner.setDelayTime(3000);
+        banner.isAutoPlay(true);
         recyclerView.setAdapterWithProgress(adapter = new RecyclerArrayAdapter<ProductModel.DataBean>(getActivity()) {
             @Override
             public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,6 +91,17 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
 
 
         presenter.getProductList(0, 10);
+        bannerPresenter.getBannerList(0);
+
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                BannerModel.DataBean banner = banners.get(position);
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("url",banner.getTTjUrl());
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -91,6 +116,19 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stopAutoPlay();
+    }
+    @Override
     public void onSuccess(ProductModel model) {
         List<ProductModel.DataBean> dataBeans = model.getData();
         if (dataBeans != null) {
@@ -99,7 +137,14 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
     }
 
     @Override
+    public void onSuccess(BannerModel model) {
+        banners = model.getData();
+        banner.setImages(model.getData());
+        banner.start();
+    }
+
+    @Override
     public void onFail(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg);
     }
 }

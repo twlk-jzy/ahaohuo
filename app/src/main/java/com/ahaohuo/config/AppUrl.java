@@ -6,4 +6,5 @@ package com.ahaohuo.config;
 
 public class AppUrl {
     public static final String GET_PRODUCT_LIST = "product/getProductList";
+    public static final String GET_BANNER_LIST = "banner/getBannerList";
 }

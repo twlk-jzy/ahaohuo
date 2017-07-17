@@ -2,6 +2,7 @@ package com.ahaohuo.api;
 
 
 import com.ahaohuo.config.AppUrl;
+import com.ahaohuo.model.BannerModel;
 import com.ahaohuo.model.ProductModel;
 
 import retrofit2.http.GET;
@@ -17,4 +18,7 @@ public interface ApiService {
 
     @GET(AppUrl.GET_PRODUCT_LIST)
     Observable<ProductModel> getProductList(@Query("page") int page,@Query("pageSize") int pageSize);
+
+    @GET(AppUrl.GET_BANNER_LIST)
+    Observable<BannerModel> getBannerList(@Query("config") int config);
 }

@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/colorAccent" />
+
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
         app:recyclerClipToPadding="true"
         app:recyclerPadding="8dp"
         app:recyclerPaddingBottom="8dp"
@@ -13,8 +23,5 @@
         app:recyclerPaddingRight="8dp"
         app:recyclerPaddingTop="8dp"
         app:scrollbarStyle="insideOverlay"
-        app:scrollbars="none"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white" />
+        app:scrollbars="none" />
 </LinearLayout>
