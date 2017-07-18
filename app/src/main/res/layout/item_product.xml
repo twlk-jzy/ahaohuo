@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:layout_gravity="center_vertical"
     android:padding="5dp">
 
     <ImageView
         android:id="@+id/iv_pro_main_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="5dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/ic_launcher" />
 
@@ -16,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <LinearLayout
@@ -24,11 +28,11 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:visibility="gone"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/icon_tmall_logo" />
+                android:src="@mipmap/icon_tmall_logo"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_pro_title"
@@ -36,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
+                android:lineSpacingExtra="3dp"
                 android:maxLines="2"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
@@ -45,19 +50,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="现价: ¥ "
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_pro_src_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="78.0"
+                android:text="0.00"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
 
@@ -66,17 +72,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="月销 235 件"
+                android:text="月销 0 件"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="券后价"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_coupon_after_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥0.00"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_coupon_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="劵30元"
+            android:drawableLeft="@mipmap/icon_coupon"
+            android:text="0元"
+            android:gravity="center_vertical"
             android:textColor="@android:color/holo_red_light" />
     </LinearLayout>
 </LinearLayout>
