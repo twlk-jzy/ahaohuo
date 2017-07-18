@@ -1,12 +1,12 @@
 package com.ahaohuo.activity;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -37,7 +37,7 @@ public class WebViewActivity extends BaseActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        setTitle(toolbar,"加载中...");
+        setTitle(toolbar, "加载中...");
         url = this.getIntent().getStringExtra("url");
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -68,6 +68,8 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setAllowUniversalAccessFromFileURLs(true);
         webSettings.setDefaultTextEncodingName("utf-8");
         webView.loadUrl(url);
+
+        initListener();
     }
 
 
@@ -86,23 +88,19 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Log.d("url-->>", url);
-                if (url.endsWith("zhima.html")) {
-                    //授权成功
-                    Intent intent = new Intent();
-                    intent.putExtra("isSuc", true);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                } else {
-                    view.loadUrl(url);
-                }
+                view.loadUrl(url);
                 return true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+
                 String title = view.getTitle();
-                setTitle(toolbar,title);
+
+                if (!TextUtils.isEmpty(title) && !title.startsWith("http")) {
+                    setTitle(toolbar, title);
+                }
             }
         });
     }
@@ -114,7 +112,7 @@ public class WebViewActivity extends BaseActivity {
         } else {
             finish();
         }
-        super.onBackPressed();
+//        super.onBackPressed();
     }
 
 }
