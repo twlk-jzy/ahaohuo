@@ -9,9 +9,15 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ahaohuo.R;
 import com.ahaohuo.base.BaseActivity;
@@ -26,6 +32,10 @@ public class WebViewActivity extends BaseActivity {
     AppBarLayout appBar;
     @BindView(R.id.webView)
     WebView webView;
+    @BindView(R.id.tv_error)
+    TextView tvError;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
     private String url;
 
 
@@ -84,6 +94,21 @@ public class WebViewActivity extends BaseActivity {
     }
 
     protected void initListener() {
+
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if(newProgress==100){
+                    progressBar.setVisibility(View.GONE);//加载完网页进度条消失
+                }
+                else{
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setProgress(newProgress);
+                }
+
+            }
+        });
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -93,9 +118,15 @@ public class WebViewActivity extends BaseActivity {
             }
 
             @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                webView.setVisibility(View.GONE);
+                tvError.setVisibility(View.VISIBLE);
+            }
+
+
+            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-
                 String title = view.getTitle();
 
                 if (!TextUtils.isEmpty(title) && !title.startsWith("http")) {
