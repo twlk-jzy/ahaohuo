@@ -1,6 +1,9 @@
 package com.ahaohuo.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
+import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +13,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -105,22 +110,41 @@ public class WebViewActivity extends BaseActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     progressBar.setProgress(newProgress);
                 }
-
             }
         });
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+            }
+
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Log.d("url-->>", url);
-                view.loadUrl(url);
-                return true;
+                try {
+                    if(url.startsWith("http:") || url.startsWith("https:") ) {
+                        view.loadUrl(url);
+                        return false;
+                    }else{
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        view.getContext().startActivity(intent);
+                        return true;
+                    }
+                }catch (Exception e){
+                    return true;
+                }
             }
 
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                webView.setVisibility(View.GONE);
-                tvError.setVisibility(View.VISIBLE);
+//                webView.setVisibility(View.GONE);
+//                tvError.setVisibility(View.VISIBLE);
             }
 
 
@@ -143,7 +167,7 @@ public class WebViewActivity extends BaseActivity {
         } else {
             finish();
         }
-//        super.onBackPressed();
+        super.onBackPressed();
     }
 
 }

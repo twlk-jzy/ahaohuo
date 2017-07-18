@@ -37,25 +37,29 @@
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="了快速开机东方丽景了快速开机东方丽景了快速开机东方丽景了快速开机东方丽景"
                 android:textColor="@android:color/black"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="现价: ¥ "
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
             <TextView
                 android:id="@+id/tv_pro_src_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="现价：¥:78.0"
+                android:text="78.0"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_pro_month_sale"
@@ -64,7 +68,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="月销 235 件"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <TextView

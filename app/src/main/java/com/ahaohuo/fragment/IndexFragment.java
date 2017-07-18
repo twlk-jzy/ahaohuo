@@ -34,7 +34,7 @@ import butterknife.BindView;
  * Created by xyb on 2017/7/12.
  */
 
-public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view,BannerContract.view {
+public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.OnMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view,BannerContract.view {
     @BindView(R.id.recyclerView)
     EasyRecyclerView recyclerView;
     @BindView(R.id.banner)
@@ -89,6 +89,17 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
             }
         });
 
+        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                ProductModel.DataBean dataBean = adapter.getItem(position);
+                Intent intent = new Intent(getActivity(),WebViewActivity.class);
+                intent.putExtra("url",dataBean.getPCouponLink());
+                startActivity(intent);
+            }
+        });
+
+
 
         presenter.getProductList(0, 10);
         bannerPresenter.getBannerList(0);
@@ -106,13 +117,15 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
 
 
     @Override
-    public void onLoadMore() {
-
+    public void onRefresh() {
+        presenter.getProductList(0, 10);
     }
 
     @Override
-    public void onRefresh() {
+    public void onResume() {
+        super.onResume();
         presenter.getProductList(0, 10);
+        bannerPresenter.getBannerList(0);
     }
 
     @Override
@@ -132,6 +145,7 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
     public void onSuccess(ProductModel model) {
         List<ProductModel.DataBean> dataBeans = model.getData();
         if (dataBeans != null) {
+            adapter.clear();
             adapter.addAll(dataBeans);
         }
     }
@@ -146,5 +160,15 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
     @Override
     public void onFail(String msg) {
         showToast(msg);
+    }
+
+    @Override
+    public void onMoreShow() {
+
+    }
+
+    @Override
+    public void onMoreClick() {
+
     }
 }

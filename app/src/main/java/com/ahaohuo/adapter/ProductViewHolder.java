@@ -1,8 +1,8 @@
 package com.ahaohuo.adapter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
@@ -40,8 +40,8 @@ public class ProductViewHolder extends BaseViewHolder<ProductModel.DataBean> {
         Glide.with(getContext()).load(data.getPMainImg()).into(proMainImg);
 
         setTextTitle(proTitle,R.mipmap.icon_tmall_logo,data.getPName());
-
-        proSrcPrice.setText("现价:¥ "+data.getPPrice());
+        proSrcPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        proSrcPrice.setText(data.getPPrice());
         proMonthSale.setText("月销 "+data.getPMonthSale()+" 件");
         couponMoney.setText(data.getPCouponMoney());
     }
