@@ -32,8 +32,8 @@ dependencies {
     })
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation project(':jd_adsdk')
-    implementation project(':open-api-sdk-2.0')
+//    implementation project(':jd_adsdk')
+//    implementation project(':open-api-sdk-2.0')
     compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
     compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Version"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.converterGsonVersion"

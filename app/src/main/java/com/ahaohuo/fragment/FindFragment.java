@@ -56,7 +56,7 @@ public class FindFragment extends BaseFragment {
 
         RangeGridLayoutHelper layoutHelper = new RangeGridLayoutHelper(4);
         layoutHelper.setBgColor(Color.GREEN);
-        layoutHelper.setWeights(new float[]{20f, 26.665f});
+        layoutHelper.setWeights(new float[]{20f, 40f});
         layoutHelper.setPadding(15, 15, 15, 15);
         layoutHelper.setMargin(15, 15, 15, 15);
         layoutHelper.setHGap(10);
@@ -133,7 +133,7 @@ public class FindFragment extends BaseFragment {
 
         @Override
         protected void onBindViewHolderWithOffset(MainViewHolder holder, int position, int offsetTotal) {
-            ((TextView) holder.itemView.findViewById(R.id.title)).setText(Integer.toString(offsetTotal));
+            ((TextView) holder.itemView.findViewById(R.id.title)).setText("哈哈"+Integer.toString(offsetTotal));
         }
 
         @Override
