@@ -55,32 +55,30 @@ public class FindFragment extends BaseFragment {
         final List<DelegateAdapter.Adapter> adapters = new LinkedList<>();
 
         RangeGridLayoutHelper layoutHelper = new RangeGridLayoutHelper(4);
-        layoutHelper.setBgColor(Color.GREEN);
-        layoutHelper.setWeights(new float[]{20f, 40f});
-        layoutHelper.setPadding(15, 15, 15, 15);
-        layoutHelper.setMargin(15, 15, 15, 15);
+        layoutHelper.setWeights(new float[]{25f,25f,25f,25f});
+//        layoutHelper.setPadding(15, 15, 15, 15);
         layoutHelper.setHGap(10);
         layoutHelper.setVGap(10);
-
-        RangeGridLayoutHelper.GridRangeStyle rangeStyle = new RangeGridLayoutHelper.GridRangeStyle();
-        rangeStyle.setBgColor(Color.RED);
-        rangeStyle.setSpanCount(2);
-        rangeStyle.setWeights(new float[]{46.665f});
-        rangeStyle.setPadding(15, 15, 15, 15);
-        rangeStyle.setMargin(15, 15, 15, 15);
-        rangeStyle.setHGap(5);
-        rangeStyle.setVGap(5);
-        layoutHelper.addRangeStyle(4, 7, rangeStyle);
-
-        RangeGridLayoutHelper.GridRangeStyle rangeStyle1 = new RangeGridLayoutHelper.GridRangeStyle();
-        rangeStyle1.setBgColor(Color.YELLOW);
-        rangeStyle1.setSpanCount(2);
-        rangeStyle1.setWeights(new float[]{46.665f});
-        rangeStyle1.setPadding(15, 15, 15, 15);
-        rangeStyle1.setMargin(15, 15, 15, 15);
-        rangeStyle1.setHGap(5);
-        rangeStyle1.setVGap(5);
-        layoutHelper.addRangeStyle(8, 11, rangeStyle1);
+//
+//        RangeGridLayoutHelper.GridRangeStyle rangeStyle = new RangeGridLayoutHelper.GridRangeStyle();
+//        rangeStyle.setBgColor(Color.RED);
+//        rangeStyle.setSpanCount(2);
+//        rangeStyle.setWeights(new float[]{46.665f});
+//        rangeStyle.setPadding(15, 15, 15, 15);
+//        rangeStyle.setMargin(15, 15, 15, 15);
+//        rangeStyle.setHGap(5);
+//        rangeStyle.setVGap(5);
+//        layoutHelper.addRangeStyle(4, 7, rangeStyle);
+//
+//        RangeGridLayoutHelper.GridRangeStyle rangeStyle1 = new RangeGridLayoutHelper.GridRangeStyle();
+//        rangeStyle1.setBgColor(Color.YELLOW);
+//        rangeStyle1.setSpanCount(2);
+//        rangeStyle1.setWeights(new float[]{46.665f});
+//        rangeStyle1.setPadding(15, 15, 15, 15);
+//        rangeStyle1.setMargin(15, 15, 15, 15);
+//        rangeStyle1.setHGap(5);
+//        rangeStyle1.setVGap(5);
+//        layoutHelper.addRangeStyle(8, 11, rangeStyle1);
         adapters.add(new SubAdapter(getActivity(), layoutHelper, 16));
 
 
