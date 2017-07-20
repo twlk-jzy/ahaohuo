@@ -59,7 +59,7 @@ public class ApiManager {
                     OkHttpClient client = new OkHttpClient.Builder()
                             .addInterceptor(loggingInterceptor)
                             .addNetworkInterceptor(new CacheInterceptor())
-                            .cache(cache)
+//                            .cache(cache)
                             .build();
                     apiService = new Retrofit.Builder()
                             .baseUrl(AppConfig.BASE_URL)
