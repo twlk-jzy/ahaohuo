@@ -31,6 +31,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_setting"
         style="@style/my_item_text"
         android:layout_marginTop="5dp"
         android:drawableLeft="@mipmap/icon_setting"
@@ -39,6 +40,7 @@
     <View style="@style/line" />
 
     <TextView
+        android:id="@+id/tv_feedback"
         style="@style/my_item_text"
         android:drawableLeft="@mipmap/icon_feed_back"
         android:text="@string/text_feedback" />
@@ -46,6 +48,7 @@
     <View style="@style/line" />
 
     <TextView
+        android:id="@+id/tv_about"
         style="@style/my_item_text"
         android:drawableLeft="@mipmap/icon_about_us"
         android:text="@string/text_about_us" />

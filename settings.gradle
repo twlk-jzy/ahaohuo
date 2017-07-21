@@ -1,1 +1,1 @@
-include ':app', ':jd_adsdk', ':open-api-sdk-2.0'
+include ':app'

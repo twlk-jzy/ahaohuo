@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
+    android:elevation="0dp"
+    app:elevation="0dp"
     android:theme="?attr/actionBarTheme">
 
     <android.support.v7.widget.Toolbar

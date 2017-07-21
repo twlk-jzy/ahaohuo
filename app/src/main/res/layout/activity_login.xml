@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context="com.ahaohuo.activity.LoginActivity">
+
+    <include layout="@layout/include_action_bar"/>
+
+    <EditText
+        android:id="@+id/et_user_account"
+        style="@style/et_shape_style"
+        android:layout_marginTop="100dp"
+        android:maxLength="11"
+        android:inputType="phone"
+        android:hint="@string/tips_user_account" />
+
+    <EditText
+        android:id="@+id/et_user_password"
+        style="@style/et_shape_style"
+        android:maxLength="20"
+        android:layout_below="@+id/et_user_account"
+        android:layout_marginTop="15dp"
+        android:inputType="textPassword"
+        android:hint="@string/tips_user_password" />
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/btn_style"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/btn_login" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_login"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/tips_protocol"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/btn_style"
+        android:layout_alignLeft="@+id/btn_login"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/btn_login"
+        android:layout_marginBottom="52dp"
+        android:text="@string/btn_register" />
+</RelativeLayout>

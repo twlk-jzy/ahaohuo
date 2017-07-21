@@ -3,4 +3,11 @@
     <string name="text_setting">设置</string>
     <string name="text_feedback">意见反馈</string>
     <string name="text_about_us">关于我们</string>
+    <string name="btn_login">登录</string>
+    <string name="btn_register">立即注册</string>
+    <string name="tips_user_account">请输入手机号</string>
+    <string name="tips_user_password">请输入密码</string>
+
+
+    <string name="tips_protocol">登录即代表您已经同意《用户使用协议》</string>
 </resources>
