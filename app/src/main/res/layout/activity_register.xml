@@ -17,7 +17,8 @@
         android:background="@drawable/shape_black_et_bg"
         android:hint="@string/tips_user_name"
         android:inputType="phone"
-        android:maxLength="10" />
+        android:maxLength="10"
+        android:textColor="@android:color/black" />
 
     <EditText
         android:id="@+id/et_user_phone"
@@ -26,7 +27,8 @@
         android:background="@drawable/shape_black_et_bg"
         android:hint="@string/tips_user_account"
         android:inputType="phone"
-        android:maxLength="11" />
+        android:maxLength="11"
+        android:textColor="@android:color/black" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,10 +38,13 @@
         <EditText
             android:id="@+id/et_sms_code"
             style="@style/et_shape_style"
+            android:layout_alignBottom="@+id/tv_send_sms_code"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/shape_black_et_bg"
             android:hint="@string/tips_input_sms_code"
             android:inputType="number"
-            android:maxLength="6" />
+            android:maxLength="6"
+            android:textColor="@android:color/black" />
 
         <TextView
             android:id="@+id/tv_send_sms_code"
@@ -62,7 +67,8 @@
         android:background="@drawable/shape_black_et_bg"
         android:hint="@string/tips_user_password"
         android:inputType="textPassword"
-        android:maxLength="20" />
+        android:maxLength="20"
+        android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/btn_register"

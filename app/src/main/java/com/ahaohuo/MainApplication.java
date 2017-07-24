@@ -1,10 +1,10 @@
 package com.ahaohuo;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.mob.MobApplication;
 import com.tencent.bugly.Bugly;
 
 
@@ -12,7 +12,7 @@ import com.tencent.bugly.Bugly;
  * Created by xyb on 2017/7/7.
  */
 
-public class MainApplication extends Application {
+public class MainApplication extends MobApplication {
     @SuppressLint("StaticFieldLeak")
     private static Context context;
     @Override

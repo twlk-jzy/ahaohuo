@@ -23,6 +23,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    repositories{
+        flatDir{
+            dirs 'libs' //就是你放aar的目录地址
+        }
+    }
 }
 
 dependencies {
@@ -55,4 +60,8 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.9'
     implementation 'com.android.support:design:25.0.0'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation files('libs/MobCommons-2017.0607.1736.jar')
+    implementation files('libs/MobTools-2017.0607.1736.jar')
+    compile name:'SMSSDK-3.0.0',ext:'aar'
+    compile name:'SMSSDKGUI-3.0.0',ext:'aar'
 }

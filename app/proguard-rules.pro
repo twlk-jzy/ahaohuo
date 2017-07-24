@@ -38,3 +38,10 @@
 -keep class com.youth.banner.** {
     *;
  }
+
+ # SMSSDK
+ -dontwarn com.mob.**
+ -keep class com.mob.**{*;}
+
+ -dontwarn cn.smssdk.**
+ -keep class cn.smssdk.**{*;}
