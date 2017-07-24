@@ -38,8 +38,7 @@
         <EditText
             android:id="@+id/et_sms_code"
             style="@style/et_shape_style"
-            android:layout_alignBottom="@+id/tv_send_sms_code"
-            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/shape_black_et_bg"
             android:hint="@string/tips_input_sms_code"
             android:inputType="number"
@@ -54,9 +53,9 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
             android:background="@drawable/shape_et_bg"
-            android:padding="15dp"
             android:text="@string/text_send_sms_code"
             android:textColor="@android:color/white"
+            android:padding="15dp"
             android:textSize="14sp" />
     </RelativeLayout>
 

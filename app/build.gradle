@@ -64,4 +64,5 @@ dependencies {
     implementation files('libs/MobTools-2017.0607.1736.jar')
     compile name:'SMSSDK-3.0.0',ext:'aar'
     compile name:'SMSSDKGUI-3.0.0',ext:'aar'
+
 }
