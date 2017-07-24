@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':SMSSDK-3.0.0', ':SMSSDKGUI-3.0.0'
