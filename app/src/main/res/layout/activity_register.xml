@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ahaohuo.activity.RegisterActivity">
+
+
+    <include layout="@layout/include_action_bar" />
+
+    <EditText
+        android:id="@+id/et_user_name"
+        style="@style/et_shape_style"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_black_et_bg"
+        android:hint="@string/tips_user_name"
+        android:inputType="phone"
+        android:maxLength="10" />
+
+    <EditText
+        android:id="@+id/et_user_phone"
+        style="@style/et_shape_style"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_black_et_bg"
+        android:hint="@string/tips_user_account"
+        android:inputType="phone"
+        android:maxLength="11" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <EditText
+            android:id="@+id/et_sms_code"
+            style="@style/et_shape_style"
+            android:background="@drawable/shape_black_et_bg"
+            android:hint="@string/tips_input_sms_code"
+            android:inputType="number"
+            android:maxLength="6" />
+
+        <TextView
+            android:id="@+id/tv_send_sms_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/shape_et_bg"
+            android:padding="15dp"
+            android:text="@string/text_send_sms_code"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_user_pwd"
+        style="@style/et_shape_style"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_black_et_bg"
+        android:hint="@string/tips_user_password"
+        android:inputType="textPassword"
+        android:maxLength="20" />
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/btn_style"
+        android:layout_marginTop="60dp"
+        android:text="@string/btn_register" />
+</LinearLayout>

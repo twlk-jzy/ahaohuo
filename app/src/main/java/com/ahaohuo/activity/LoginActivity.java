@@ -1,5 +1,6 @@
 package com.ahaohuo.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -48,6 +49,8 @@ public class LoginActivity extends BaseActivity {
                 login();
                 break;
             case R.id.btn_register:
+                Intent intent = new Intent(this,RegisterActivity.class);
+                startActivity(intent);
                 break;
         }
     }
