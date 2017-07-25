@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ahaohuo.R;
-import com.ahaohuo.activity.LoginActivity;
+import com.ahaohuo.activity.AboutUsActivity;
+import com.ahaohuo.activity.FeedBackActivity;
+import com.ahaohuo.activity.SettingActivity;
 import com.ahaohuo.base.BaseFragment;
 
 import butterknife.BindView;
@@ -42,17 +44,21 @@ public class MyFragment extends BaseFragment {
 
     @OnClick({R.id.tv_setting,R.id.tv_feedback,R.id.tv_about})
     public void click(View view){
+        Class clazz = null;
         switch (view.getId()){
             case R.id.tv_setting:
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
+                clazz = SettingActivity.class;
                 break;
             case R.id.tv_feedback:
-
+                clazz = FeedBackActivity.class;
                 break;
             case R.id.tv_about:
-
+                clazz = AboutUsActivity.class;
                 break;
+        }
+        if(clazz != null){
+            Intent intent = new Intent(getActivity(), clazz);
+            startActivity(intent);
         }
     }
 }
