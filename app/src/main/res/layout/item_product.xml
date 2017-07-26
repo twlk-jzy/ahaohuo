@@ -108,6 +108,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/icon_coupon"
             android:text="0元"
+            android:textSize="18sp"
             android:gravity="center_vertical"
             android:textColor="@android:color/holo_red_light" />
     </LinearLayout>

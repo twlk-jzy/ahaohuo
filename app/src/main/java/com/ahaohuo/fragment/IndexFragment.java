@@ -5,10 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ahaohuo.GlideImageLoader;
 import com.ahaohuo.R;
+import com.ahaohuo.activity.AllProductActivity;
 import com.ahaohuo.activity.WebViewActivity;
 import com.ahaohuo.adapter.ProductViewHolder;
 import com.ahaohuo.base.BaseFragment;
@@ -29,16 +32,19 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by xyb on 2017/7/12.
  */
 
-public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.OnMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view,BannerContract.view {
+public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.OnMoreListener, SwipeRefreshLayout.OnRefreshListener, ProductContract.view, BannerContract.view {
     @BindView(R.id.recyclerView)
     EasyRecyclerView recyclerView;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.tv_all)
+    TextView tvAll;
     private RecyclerArrayAdapter<ProductModel.DataBean> adapter;
 
     private ProductPresenter presenter;
@@ -93,12 +99,11 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
             @Override
             public void onItemClick(int position) {
                 ProductModel.DataBean dataBean = adapter.getItem(position);
-                Intent intent = new Intent(getActivity(),WebViewActivity.class);
-                intent.putExtra("url",dataBean.getPCouponLink());
+                Intent intent = new Intent(getActivity(), WebViewActivity.class);
+                intent.putExtra("url", dataBean.getPCouponLink());
                 startActivity(intent);
             }
         });
-
 
 
         presenter.getProductList(0, 10);
@@ -109,7 +114,7 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
             public void OnBannerClick(int position) {
                 BannerModel.DataBean banner = banners.get(position);
                 Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url",banner.getTTjUrl());
+                intent.putExtra("url", banner.getTTjUrl());
                 startActivity(intent);
             }
         });
@@ -141,6 +146,7 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
         //结束轮播
         banner.stopAutoPlay();
     }
+
     @Override
     public void onSuccess(ProductModel model) {
         List<ProductModel.DataBean> dataBeans = model.getData();
@@ -170,5 +176,15 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
     @Override
     public void onMoreClick() {
 
+    }
+
+    @OnClick({R.id.tv_all})
+    public void click(View view) {
+        switch (view.getId()) {
+            case R.id.tv_all:
+                Intent intent = new Intent(getActivity(), AllProductActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
