@@ -1,12 +1,14 @@
 package com.ahaohuo.model;
 
+import com.ahaohuo.base.BaseModel;
+
 import java.util.List;
 
 /**
  * Created by xyb on 2017/7/10.
  */
 
-public class ProductModel {
+public class ProductModel extends BaseModel {
 
     private List<DataBean> data;
 

@@ -1,12 +1,14 @@
 package com.ahaohuo.model;
 
+import com.ahaohuo.base.BaseModel;
+
 import java.util.List;
 
 /**
  * Created by xyb on 2017/7/17.
  */
 
-public class BannerModel {
+public class BannerModel extends BaseModel {
 
     private List<DataBean> data;
 

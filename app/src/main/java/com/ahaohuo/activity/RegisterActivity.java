@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.ahaohuo.R;
 import com.ahaohuo.base.BaseActivity;
+import com.ahaohuo.base.BaseModel;
+import com.ahaohuo.presenter.RegisterPresenter;
+import com.ahaohuo.presenter.contract.RegisterContract;
 import com.ahaohuo.util.AppUtils;
 
 import butterknife.BindView;
@@ -19,7 +22,7 @@ import butterknife.OnClick;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
-public class RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity implements RegisterContract.view {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -39,6 +42,9 @@ public class RegisterActivity extends BaseActivity {
     Button btnRegister;
     private EventHandler eventHandler;
 
+
+    private RegisterPresenter presenter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_register;
@@ -48,11 +54,13 @@ public class RegisterActivity extends BaseActivity {
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(toolbar, "注册");
 
+        presenter = new RegisterPresenter(this);
+
         // 创建EventHandler对象
         eventHandler = new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
                 if (data instanceof Throwable) {
-                    Throwable throwable = (Throwable)data;
+                    Throwable throwable = (Throwable) data;
                     String msg = throwable.getMessage();
                     showToast(msg);
                 } else {
@@ -64,7 +72,7 @@ public class RegisterActivity extends BaseActivity {
                                 showToast("获取验证码成功");
                             }
                         });
-                    }else if(event  == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE){
+                    } else if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                         //提交验证码成功
                     }
                 }
@@ -121,6 +129,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         //注册
+        presenter.register(userName, phone, userPwd);
     }
 
     /**
@@ -137,10 +146,24 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         //发送短信验证码
-        SMSSDK.getVerificationCode("+86",phone);
+        SMSSDK.getVerificationCode("+86", phone);
     }
+
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eventHandler);
+    }
+
+    @Override
+    public void onSuccess(BaseModel model) {
+        if (model.getCode().equals("200")) {
+            finish();
+        }
+        showToast(model.getMsg());
+    }
+
+    @Override
+    public void onFail(String msg) {
+        showToast(msg);
     }
 }

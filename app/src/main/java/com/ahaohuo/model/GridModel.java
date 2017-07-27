@@ -1,12 +1,14 @@
 package com.ahaohuo.model;
 
+import com.ahaohuo.base.BaseModel;
+
 import java.util.List;
 
 /**
  * Created by xyb on 2017/7/20.
  */
 
-public class GridModel {
+public class GridModel extends BaseModel {
 
     private List<DataBean> data;
 

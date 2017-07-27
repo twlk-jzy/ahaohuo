@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ahaohuo.R;
-import com.ahaohuo.activity.AboutUsActivity;
 import com.ahaohuo.activity.FeedBackActivity;
+import com.ahaohuo.activity.LoginActivity;
 import com.ahaohuo.activity.SettingActivity;
 import com.ahaohuo.base.BaseFragment;
 
@@ -53,7 +53,7 @@ public class MyFragment extends BaseFragment {
                 clazz = FeedBackActivity.class;
                 break;
             case R.id.tv_about:
-                clazz = AboutUsActivity.class;
+                clazz = LoginActivity.class;
                 break;
         }
         if(clazz != null){
