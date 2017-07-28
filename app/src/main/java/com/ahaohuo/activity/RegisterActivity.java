@@ -1,6 +1,7 @@
 package com.ahaohuo.activity;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
@@ -44,7 +45,13 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
 
 
     private RegisterPresenter presenter;
+    private String userName;
+    private String phone;
+    private String userPwd;
+    private String smsCode;
 
+
+    private CountDownTimer countDownTimer;
     @Override
     public int getLayoutId() {
         return R.layout.activity_register;
@@ -53,18 +60,34 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(toolbar, "注册");
+        countDownTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvSendSmsCode.setClickable(false);
+                tvSendSmsCode.setText("   "+millisUntilFinished / 1000 +"秒 ");
+            }
 
+            @Override
+            public void onFinish() {
+                tvSendSmsCode.setClickable(true);
+                tvSendSmsCode.setText(" 重新发送 ");
+            }
+        };
         presenter = new RegisterPresenter(this);
 
         // 创建EventHandler对象
         eventHandler = new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
-                if (data instanceof Throwable) {
-                    Throwable throwable = (Throwable) data;
-                    String msg = throwable.getMessage();
-                    showToast(msg);
-                } else {
-                    if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                if(result == SMSSDK.RESULT_COMPLETE){
+                    boolean smart = false;
+                    if(data instanceof Boolean){
+                        smart = (Boolean)data;
+                    }
+                    if(smart) {
+                        //通过智能验证
+                        //执行注册操作
+                        registerUser();
+                    } else if(event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
                         // 处理你自己的逻辑  获取验证码成功
                         runOnUiThread(new Runnable() {
                             @Override
@@ -72,15 +95,25 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
                                 showToast("获取验证码成功");
                             }
                         });
-                    } else if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                        //提交验证码成功
+                        //依然走短信验证
                     }
+                }else if(event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                    //提交验证码成功
+                    registerUser();
                 }
             }
         };
 
         // 注册监听器
         SMSSDK.registerEventHandler(eventHandler);
+    }
+
+    /**
+     * 注册用户操作
+     */
+    private void registerUser() {
+        //注册
+        presenter.register(userName, phone, userPwd);
     }
 
     @OnClick({R.id.btn_register, R.id.tv_send_sms_code})
@@ -99,12 +132,12 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
      * 注册
      */
     private void register() {
-        String userName = etUserName.getText().toString();
+        userName = etUserName.getText().toString();
         if (TextUtils.isEmpty(userName)) {
             showToast("请输入用户昵称");
             return;
         }
-        String phone = etUserPhone.getText().toString();
+        phone = etUserPhone.getText().toString();
         if (TextUtils.isEmpty(phone)) {
             showToast("请输入手机号");
             return;
@@ -113,13 +146,13 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
             showToast("手机号格式不正确");
             return;
         }
-        String smsCode = etSmsCode.getText().toString();
+        smsCode = etSmsCode.getText().toString();
 
         if (TextUtils.isEmpty(smsCode)) {
             showToast("请输入短信验证码");
             return;
         }
-        String userPwd = etUserPwd.getText().toString();
+        userPwd = etUserPwd.getText().toString();
         if (TextUtils.isEmpty(userPwd)) {
             showToast("请输入密码");
             return;
@@ -128,8 +161,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
             showToast("密码长度为6-20位字符");
             return;
         }
-        //注册
-        presenter.register(userName, phone, userPwd);
+        SMSSDK.submitVerificationCode("+86",phone,smsCode);
+
     }
 
     /**
@@ -145,6 +178,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
             showToast("手机号格式不正确");
             return;
         }
+        countDownTimer.start();
         //发送短信验证码
         SMSSDK.getVerificationCode("+86", phone);
     }
@@ -152,18 +186,22 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eventHandler);
+        countDownTimer.cancel();
     }
 
     @Override
     public void onSuccess(BaseModel model) {
+        showToast(model.getMsg());
         if (model.getCode().equals("200")) {
             finish();
         }
-        showToast(model.getMsg());
     }
 
     @Override
     public void onFail(String msg) {
         showToast(msg);
     }
+
+
+
 }
