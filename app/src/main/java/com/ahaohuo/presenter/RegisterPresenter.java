@@ -17,6 +17,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
 
     @Override
     public void register(String userName, String userPhone, String userPwd) {
+
         ApiManager.getInstance().getApiService().register(userName,userPhone,userPwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

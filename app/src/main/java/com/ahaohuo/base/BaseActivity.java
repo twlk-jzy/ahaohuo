@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
+
 import butterknife.ButterKnife;
 
 /**
@@ -17,6 +19,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
+    private KProgressHUD hud;
 
     public abstract int getLayoutId();
 
@@ -56,5 +59,30 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    /**
+     * 显示等待框
+     * @param loading
+     */
+    public void showLoading(String loading){
+        hud = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel(loading)
+                .setMaxProgress(100)
+                .show();
+    }
+
+    /**
+     * 隐藏等待框
+     */
+    public void hideLoading(){
+        if(hud == null){
+            return;
+        }
+        if(hud.isShowing()){
+            hud.dismiss();
+        }
     }
 }

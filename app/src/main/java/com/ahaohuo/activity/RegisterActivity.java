@@ -18,6 +18,8 @@ import com.ahaohuo.presenter.RegisterPresenter;
 import com.ahaohuo.presenter.contract.RegisterContract;
 import com.ahaohuo.util.AppUtils;
 
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.smssdk.EventHandler;
@@ -78,6 +80,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
         // 创建EventHandler对象
         eventHandler = new EventHandler() {
             public void afterEvent(int event, int result, Object data) {
+                hideLoading();
                 if(result == SMSSDK.RESULT_COMPLETE){
                     boolean smart = false;
                     if(data instanceof Boolean){
@@ -87,19 +90,50 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
                         //通过智能验证
                         //执行注册操作
                         registerUser();
-                    } else if(event == SMSSDK.EVENT_GET_VERIFICATION_CODE){
-                        // 处理你自己的逻辑  获取验证码成功
+                    } else{
+                        switch (event){
+                            case SMSSDK.EVENT_GET_VERIFICATION_CODE:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showToast("获取验证码成功");
+                                    }
+                                });
+                                break;
+                            case SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE:
+                                //校验验证码，返回校验的手机和国家代码
+                                registerUser();
+                                break;
+                            case SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE:
+                                //请求发送语音验证码
+                                break;
+                        }
+                    }
+                }else{
+                    try {
+                        Throwable throwable = (Throwable) data;
+                        JSONObject object = new JSONObject(throwable.getMessage());
+                        final String des = object.optString("detail");//错误描述
+                        int status = object.optInt("status");//错误代码
+                        if (status > 0 && !TextUtils.isEmpty(des)) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showToast("验证码错误");
+                                }
+                            });
+                            return;
+                        }
+                        registerUser();
+                    } catch (Exception e) {
+                        //do something
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                showToast("获取验证码成功");
+                                showToast("短信验证码验证失败");
                             }
                         });
-                        //依然走短信验证
                     }
-                }else if(event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    //提交验证码成功
-                    registerUser();
                 }
             }
         };
@@ -112,6 +146,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
      * 注册用户操作
      */
     private void registerUser() {
+
         //注册
         presenter.register(userName, phone, userPwd);
     }
@@ -161,6 +196,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
             showToast("密码长度为6-20位字符");
             return;
         }
+        showLoading("注册中…");
         SMSSDK.submitVerificationCode("+86",phone,smsCode);
 
     }
@@ -178,6 +214,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
             showToast("手机号格式不正确");
             return;
         }
+        showLoading("发送短信中…");
         countDownTimer.start();
         //发送短信验证码
         SMSSDK.getVerificationCode("+86", phone);
@@ -191,6 +228,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
 
     @Override
     public void onSuccess(BaseModel model) {
+        hideLoading();
         showToast(model.getMsg());
         if (model.getCode().equals("200")) {
             finish();
@@ -199,6 +237,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.v
 
     @Override
     public void onFail(String msg) {
+        hideLoading();
         showToast(msg);
     }
 
