@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.ahaohuo.util.SpUtils;
 import com.mob.MobApplication;
 import com.tencent.bugly.Bugly;
 
@@ -20,6 +21,7 @@ public class MainApplication extends MobApplication {
         super.onCreate();
         context = this;
         BuglyInit(getApplicationContext());
+        SpUtils.init(getApplicationContext());
     }
 
     private void BuglyInit(Context context){

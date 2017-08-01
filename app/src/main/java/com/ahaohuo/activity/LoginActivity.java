@@ -12,12 +12,17 @@ import android.widget.EditText;
 
 import com.ahaohuo.R;
 import com.ahaohuo.base.BaseActivity;
+import com.ahaohuo.config.AppKey;
+import com.ahaohuo.model.LoginModel;
+import com.ahaohuo.presenter.LoginPresenter;
+import com.ahaohuo.presenter.contract.LoginContract;
 import com.ahaohuo.util.AppUtils;
+import com.ahaohuo.util.SpUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginContract.view {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -32,6 +37,8 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.btn_register)
     Button btnRegister;
 
+    private LoginPresenter presenter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -40,6 +47,18 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
         setTitle(toolbar, "登录");
+
+        presenter = new LoginPresenter(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        String userPhone = SpUtils.getString(AppKey.USER_PHONE,null);
+        if(!TextUtils.isEmpty(userPhone)){
+            etUserAccount.setText(userPhone);
+            etUserAccount.setSelection(etUserAccount.getText().length());
+        }
     }
 
     @OnClick({R.id.btn_login, R.id.btn_register})
@@ -82,6 +101,28 @@ public class LoginActivity extends BaseActivity {
             showToast("密码长度为6-20位的字符");
             return;
         }
+
         //登录
+        showLoading("登录中…");
+        //保存下登录账号
+        SpUtils.saveString(AppKey.USER_PHONE,userAccount);
+        presenter.login(userAccount,userPassword);
+    }
+
+    @Override
+    public void onSuccess(LoginModel model) {
+        hideLoading();
+        if(model.getCode().equals("200")){
+            String userName = model.getData().getTUserName();
+            SpUtils.saveString(AppKey.USER_NAEM,userName);
+            finish();
+        }
+        showToast(model.getMsg());
+    }
+
+    @Override
+    public void onFail(String msg) {
+        hideLoading();
+        showToast(msg);
     }
 }

@@ -5,6 +5,7 @@ import com.ahaohuo.base.BaseModel;
 import com.ahaohuo.config.AppUrl;
 import com.ahaohuo.model.BannerModel;
 import com.ahaohuo.model.GridModel;
+import com.ahaohuo.model.LoginModel;
 import com.ahaohuo.model.ProductModel;
 
 import retrofit2.http.Field;
@@ -33,4 +34,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(AppUrl.USER_REGISTER)
     Observable<BaseModel> register(@Field("userName") String userName, @Field("userPhone") String userPhone, @Field("userPwd") String userPwd);
+
+    @FormUrlEncoded
+    @POST(AppUrl.USER_LOGIN)
+    Observable<LoginModel> userLogin(@Field("userPhone")String userPhone, @Field("userPwd")String userPwd);
 }

@@ -3,6 +3,7 @@ package com.ahaohuo.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +12,8 @@ import com.ahaohuo.activity.FeedBackActivity;
 import com.ahaohuo.activity.LoginActivity;
 import com.ahaohuo.activity.SettingActivity;
 import com.ahaohuo.base.BaseFragment;
+import com.ahaohuo.config.AppKey;
+import com.ahaohuo.util.SpUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,6 +43,15 @@ public class MyFragment extends BaseFragment {
     @Override
     public void initData() {
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        String userName = SpUtils.getString(AppKey.USER_NAEM,null);
+        if(!TextUtils.isEmpty(userName)){
+            tvUserName.setText(userName);
+        }
     }
 
     @OnClick({R.id.tv_setting,R.id.tv_feedback,R.id.tv_about})
