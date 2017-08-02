@@ -27,7 +27,6 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.DividerDecoration;
 import com.jude.easyrecyclerview.swipe.SwipeRefreshLayout;
 import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.List;
 
@@ -95,28 +94,22 @@ public class IndexFragment extends BaseFragment implements RecyclerArrayAdapter.
             }
         });
 
-        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                ProductModel.DataBean dataBean = adapter.getItem(position);
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url", dataBean.getPCouponLink());
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener(position -> {
+            ProductModel.DataBean dataBean = adapter.getItem(position);
+            Intent intent = new Intent(getActivity(), WebViewActivity.class);
+            intent.putExtra("url", dataBean.getPCouponLink());
+            startActivity(intent);
         });
 
 
         presenter.getProductList(0, 10);
         bannerPresenter.getBannerList(0);
 
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                BannerModel.DataBean banner = banners.get(position);
-                Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                intent.putExtra("url", banner.getTTjUrl());
-                startActivity(intent);
-            }
+        banner.setOnBannerListener(position -> {
+            BannerModel.DataBean banner = banners.get(position);
+            Intent intent = new Intent(getActivity(), WebViewActivity.class);
+            intent.putExtra("url", banner.getTTjUrl());
+            startActivity(intent);
         });
     }
 

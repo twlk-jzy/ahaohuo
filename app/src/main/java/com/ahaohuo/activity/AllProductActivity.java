@@ -62,12 +62,9 @@ public class AllProductActivity extends BaseActivity implements RecyclerArrayAda
         recyclerView.setRefreshListener(this);
         adapter.setMore(R.layout.view_more, this);
         adapter.setNoMore(R.layout.view_nomore);
-        adapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(int position) {
-                adapter.remove(position);
-                return true;
-            }
+        adapter.setOnItemLongClickListener(position -> {
+            adapter.remove(position);
+            return true;
         });
         adapter.setError(R.layout.view_error, new RecyclerArrayAdapter.OnErrorListener() {
             @Override
@@ -80,17 +77,12 @@ public class AllProductActivity extends BaseActivity implements RecyclerArrayAda
             }
         });
 
-        adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                ProductModel.DataBean dataBean = adapter.getItem(position);
-                Intent intent = new Intent(AllProductActivity.this, WebViewActivity.class);
-                intent.putExtra("url", dataBean.getPCouponLink());
-                startActivity(intent);
-            }
+        adapter.setOnItemClickListener(position -> {
+            ProductModel.DataBean dataBean = adapter.getItem(position);
+            Intent intent = new Intent(AllProductActivity.this, WebViewActivity.class);
+            intent.putExtra("url", dataBean.getPCouponLink());
+            startActivity(intent);
         });
-
-
         presenter.getProductList(0, 10);
     }
 
@@ -114,6 +106,7 @@ public class AllProductActivity extends BaseActivity implements RecyclerArrayAda
 
     @Override
     public void onMoreClick() {
+
     }
 
     @Override
